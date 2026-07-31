@@ -16,6 +16,7 @@ type Slide = {
   sub: string;
   cta: string;
   image: string;
+  gradient: string;
 };
 
 const SLIDES: Slide[] = [
@@ -26,6 +27,7 @@ const SLIDES: Slide[] = [
     sub: "Wireless charging built for your everyday devices.",
     cta: "Shop Belkin",
     image: belkin.url,
+    gradient: "linear-gradient(90deg,#00ffa3,#2bff88,#00e0b0,#00ffa3)",
   },
   {
     brand: "JBL",
@@ -34,6 +36,7 @@ const SLIDES: Slide[] = [
     sub: "Portable audio, headphones and party speakers.",
     cta: "Shop JBL",
     image: jbl.url,
+    gradient: "linear-gradient(90deg,#ff8a00,#ff5722,#ffb300,#ff8a00)",
   },
   {
     brand: "Ecovacs",
@@ -42,6 +45,7 @@ const SLIDES: Slide[] = [
     sub: "Smart vacuums that map, mop and dock on their own.",
     cta: "Shop Ecovacs",
     image: ecovacs.url,
+    gradient: "linear-gradient(90deg,#00c6ff,#3b82f6,#22d3ee,#00c6ff)",
   },
   {
     brand: "Bissell",
@@ -50,6 +54,7 @@ const SLIDES: Slide[] = [
     sub: "Home care machines that actually lift the dirt.",
     cta: "Shop Bissell",
     image: bissell.url,
+    gradient: "linear-gradient(90deg,#ff2d55,#ff5f6d,#ff0033,#ff2d55)",
   },
   {
     brand: "BaByliss",
@@ -58,6 +63,7 @@ const SLIDES: Slide[] = [
     sub: "Salon results, straight from your own hands.",
     cta: "Shop BaByliss",
     image: babyliss.url,
+    gradient: "linear-gradient(90deg,#ff5fbf,#ff9ad5,#f472b6,#ff5fbf)",
   },
   {
     brand: "Moulinex",
@@ -66,6 +72,7 @@ const SLIDES: Slide[] = [
     sub: "Precision appliances for everyday cooking.",
     cta: "Shop Moulinex",
     image: moulinex.url,
+    gradient: "linear-gradient(90deg,#ff1e1e,#ff6a3d,#e11d48,#ff1e1e)",
   },
   {
     brand: "Cuisinart",
@@ -74,6 +81,7 @@ const SLIDES: Slide[] = [
     sub: "Iconic kitchen tools, built to perform for years.",
     cta: "Shop Cuisinart",
     image: cuisinart.url,
+    gradient: "linear-gradient(90deg,#e6e6e6,#9ca3af,#ffffff,#e6e6e6)",
   },
 ];
 
@@ -139,28 +147,24 @@ export function HeroSlider() {
             <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-background/40" />
 
             <div className="absolute inset-0">
-              <div className="mx-auto flex h-full max-w-[1400px] items-center px-5 md:px-10">
+              <div className="mx-auto flex h-full max-w-[1400px] items-center px-5 pl-6 md:px-10 md:pl-24">
                 <div className="max-w-2xl">
-                  <div className="overflow-hidden pb-1">
-                    <p
-                      className={`mb-5 text-xs font-semibold uppercase tracking-[0.35em] text-accent ${
-                        active ? "animate-wipe-up [animation-delay:600ms]" : "opacity-0"
-                      }`}
-                    >
-                      {slide.brand}
-                    </p>
-                  </div>
                   <h1 className="font-display text-[12vw] font-medium leading-[1.02] tracking-[-0.02em] text-foreground sm:text-6xl lg:text-7xl">
                     <span className="block overflow-hidden pb-[0.06em]">
                       <span
-                        className={`block text-accent ${active ? "animate-wipe-up [animation-delay:780ms]" : "opacity-0"}`}
+                        className={`block ${active ? "animate-wipe-up [animation-delay:600ms]" : "opacity-0"}`}
                       >
-                        {slide.accentWords}
+                        <span
+                          className="accent-gradient inline-block transition-[filter] duration-300 hover:[animation-duration:1s] hover:drop-shadow-[0_0_22px_rgba(255,255,255,0.35)]"
+                          style={{ "--slide-gradient": slide.gradient } as React.CSSProperties}
+                        >
+                          {slide.accentWords}
+                        </span>
                       </span>
                     </span>
                     <span className="block overflow-hidden pb-[0.06em]">
                       <span
-                        className={`block ${active ? "animate-wipe-up [animation-delay:920ms]" : "opacity-0"}`}
+                        className={`block ${active ? "animate-wipe-up [animation-delay:760ms]" : "opacity-0"}`}
                       >
                         {slide.restWords}
                       </span>
@@ -168,8 +172,8 @@ export function HeroSlider() {
                   </h1>
                   <div className="overflow-hidden pb-1">
                     <p
-                      className={`mt-6 max-w-md text-base text-foreground/75 md:text-lg ${
-                        active ? "animate-wipe-up [animation-delay:1150ms]" : "opacity-0"
+                      className={`mt-5 max-w-md text-base text-foreground/80 md:text-[17px] ${
+                        active ? "animate-wipe-up [animation-delay:980ms]" : "opacity-0"
                       }`}
                     >
                       {slide.sub}
@@ -177,11 +181,11 @@ export function HeroSlider() {
                   </div>
                   <div className="overflow-hidden pb-2">
                     <div
-                      className={active ? "animate-wipe-up [animation-delay:1400ms]" : "opacity-0"}
+                      className={active ? "animate-wipe-up [animation-delay:1200ms]" : "opacity-0"}
                     >
                       <a
                         href="#"
-                        className="mt-9 inline-flex items-center justify-center rounded-md bg-accent px-9 py-3.5 text-sm font-medium text-accent-foreground transition-opacity duration-300 hover:opacity-90"
+                        className="mt-7 inline-flex items-center justify-center rounded-sm border border-foreground/70 px-7 py-3 text-[15px] font-medium text-foreground transition-colors duration-300 hover:border-accent hover:bg-accent hover:text-accent-foreground"
                       >
                         {slide.cta}
                       </a>

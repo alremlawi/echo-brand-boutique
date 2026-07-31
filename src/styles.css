@@ -106,6 +106,15 @@
   }
 }
 
+@keyframes shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
 @utility animate-kenburns {
   animation: kenburns 8s ease-out forwards;
 }
@@ -122,6 +131,15 @@
 
 @utility animate-progress {
   animation: progress linear forwards;
+}
+
+@utility accent-gradient {
+  background-image: var(--slide-gradient);
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: shimmer 4s linear infinite;
 }
 
 :root {

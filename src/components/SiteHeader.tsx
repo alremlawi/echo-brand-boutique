@@ -35,13 +35,13 @@ export function SiteHeader() {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-8 lg:flex">
+        <nav className="hidden items-center gap-8 lg:flex lg:mr-auto lg:ml-12">
           {NAV.map((item, i) => (
             <a
               key={item}
               href="#"
-              className={`relative text-[15px] text-foreground/85 transition-colors hover:text-accent ${
-                i === 0 ? "text-foreground after:absolute after:-bottom-1.5 after:left-0 after:h-px after:w-full after:bg-foreground" : ""
+              className={`relative text-[17px] font-medium tracking-tight transition-colors hover:text-accent ${
+                i === 0 ? "text-foreground" : "text-foreground/85"
               }`}
             >
               {item}
