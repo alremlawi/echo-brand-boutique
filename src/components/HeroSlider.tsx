@@ -151,8 +151,8 @@ export function HeroSlider() {
               style={{ "--slide-gradient": slide.gradient } as React.CSSProperties}
             >
               <div className="mx-auto flex h-full max-w-[1400px] items-center px-5 pl-6 md:px-10 md:pl-24">
-                <div className="max-w-2xl">
-                  <h1 className="font-display text-[12vw] font-medium leading-[1.02] tracking-[-0.02em] text-foreground sm:text-6xl lg:text-7xl">
+                <div className="min-w-0 max-w-2xl">
+                  <h1 className="font-display text-[clamp(2.5rem,11vw,4rem)] font-semibold leading-[0.95] tracking-[-0.035em] text-foreground md:text-[clamp(3.5rem,7vw,5.25rem)]">
                     <span className="block overflow-hidden pb-[0.06em]">
                       <span
                         className={`block ${active ? "animate-wipe-up [animation-delay:600ms]" : "opacity-0"}`}
@@ -172,7 +172,7 @@ export function HeroSlider() {
                   </h1>
                   <div className="overflow-hidden pb-1">
                     <p
-                      className={`mt-5 max-w-md text-base text-foreground/80 md:text-[17px] ${
+                      className={`mt-5 max-w-md text-[15px] font-light leading-[1.6] text-foreground/75 md:text-[18px] ${
                         active ? "animate-wipe-up [animation-delay:980ms]" : "opacity-0"
                       }`}
                     >
@@ -185,7 +185,7 @@ export function HeroSlider() {
                     >
                       <a
                         href="#"
-                        className="accent-btn mt-7 inline-flex items-center justify-center rounded-sm border border-foreground/70 px-7 py-3 text-[15px] font-medium text-foreground transition-colors duration-300"
+                        className="accent-btn mt-7 inline-flex items-center justify-center rounded-sm border border-foreground/70 px-7 py-3 text-[13px] font-medium uppercase leading-none tracking-[0.14em] text-foreground transition-colors duration-300 md:text-[14px]"
                       >
                         {slide.cta}
                       </a>
