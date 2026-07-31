@@ -76,7 +76,7 @@ const SLIDES: Slide[] = [
   },
   {
     brand: "Cuisinart",
-    accentWords: "Cook bold,",
+    accentWords: "Cook bold",
     restWords: "cook better",
     sub: "Iconic kitchen tools, built to perform for years.",
     cta: "Shop Cuisinart",
