@@ -88,9 +88,9 @@ export function EcovacsSection() {
       const raw = (vh - rect.top) / vh;
       setStage((prev) => {
         // three buckets with hysteresis so boundaries don't flicker
-        if (prev === 0) return raw > 0.55 ? (raw > 1.0 ? 2 : 1) : 0;
-        if (prev === 1) return raw > 1.0 ? 2 : raw < 0.45 ? 0 : 1;
-        return raw < 0.9 ? (raw < 0.45 ? 0 : 1) : 2;
+        if (prev === 0) return raw > 0.5 ? (raw > 0.82 ? 2 : 1) : 0;
+        if (prev === 1) return raw > 0.82 ? 2 : raw < 0.42 ? 0 : 1;
+        return raw < 0.74 ? (raw < 0.42 ? 0 : 1) : 2;
       });
     };
     const onScroll = () => {
