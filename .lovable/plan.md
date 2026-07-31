@@ -1,42 +1,29 @@
 ## Goal
 
-Build the first stage of an electronics e-commerce storefront (JBL, Belkin, Ecovacs, Bissell, BaByliss, Moulinex, Cuisinart) with a full-width auto-playing hero slider, styled exactly like the "ReBoot" reference screenshot: dark background, orange accent, transparent overlay header.
+Add the first product section directly below the hero — an Ecovacs feature block styled like the ReBoot reference video: a large centered headline whose final word is a colored highlight, followed by a video that grows to full-bleed as you scroll.
 
-## Hero slider
+## Headline
 
-- Full-bleed slider at `/` using the uploaded banner images (registered as CDN assets, not copied into the repo):
-  1. Belkin charging showcase
-  2. JBL audio stage
-  3. Ecovacs robot vacuums
-  4. Bissell home cleaning
-  5. BaByliss hair styling
-  6. Moulinex kitchen appliances
-  7. Cuisinart kitchen appliances
-- Auto-advance every ~6s, pause on hover, with manual arrows + dot indicators; loops infinitely.
-- Motion: cross-fade between slides plus a slow Ken Burns zoom/pan on the active image so it feels alive; text animates in (headline word-stagger, subline + button fade-up).
-- English marketing copy per slide, e.g.:
-  - Belkin — "Power Without Limits" / "Wireless charging built for your everyday."
-  - JBL — "Unleash The Sound" / "Portable audio, headphones and party speakers."
-  - Ecovacs — "Let The Robots Clean" / "Smart vacuums that map, mop and dock."
-  - Bissell — "Deep Clean, Every Corner" / "Home care that actually lifts the dirt."
-  - BaByliss — "Style That Turns Heads" / "Salon results, straight from your hands."
-  - Moulinex — "Master Your Kitchen" / "Precision appliances for everyday cooking."
-  - Cuisinart — "Cook Bold" / "Iconic kitchen tools, built to perform."
-- Each slide's first word/phrase gets the orange accent, like the reference.
+Centered, large display text, tight leading, same font as the site:
 
-## Header
+"Ecovacs robot vacuums for your home, designed with **innovation**"
 
-Overlay navigation bar on top of the hero: logo mark + wordmark, links (Home, Shop, Brands, Blog, Contact), and account / cart / search icons on the right, cart badge included.
+- The last word cycles through **innovation → intelligence → precision → power** on a timer (~2.2s each), with a wipe-up/fade swap matching the hero's motion language.
+- The rotating word uses a vivid blue gradient (same shimmer treatment as the hero accent word), reusing the existing `accent-gradient` utility with an Ecovacs blue `--slide-gradient`.
+- Small supporting line under the headline (brand label + one-line descriptor), like the "Peter Bowman / Electronic technician" block in the reference.
 
-## Design system
+## Scroll-expanding video
 
-Dark charcoal background (`#141414`-ish), orange accent (`#F26522`-ish), white text — added as oklch tokens in `src/styles.css`, no hardcoded colors in components. Bold condensed-ish display headings with a clean body font, loaded via `<link>` in the root route.
+- The uploaded Ecovacs clip is registered as a CDN asset (not committed as a binary) and imported as a pointer.
+- Plays muted, looped, autoplay, `playsInline`, with `preload="metadata"` and a poster frame so nothing flashes.
+- Starts as a rounded contained card (~70% width) and, as the section scrolls through the viewport, scales out to full-bleed width with corners flattening — driven by scroll progress, exactly like the reference. Motion is smooth/eased and respects `prefers-reduced-motion` (static full-width card instead).
+- Mobile: stays full-width with a lighter scale range; text sizes step down.
 
 ## Technical notes
 
-- Uploaded banners become `src/assets/*.asset.json` CDN pointers via the assets CLI and are imported in the slider component.
-- Slider implemented as a self-contained React component (state + interval), no extra carousel dependency required; images preloaded so transitions don't flash.
-- `src/routes/index.tsx` placeholder is replaced with the storefront page and gets its own `head()` metadata (title, description, og/twitter tags).
-- Mobile: image scales with `object-cover`, text sizes step down, arrows hidden in favor of swipe + dots.
+- New `src/components/EcovacsSection.tsx`, rendered in `src/routes/index.tsx` after `<HeroSlider />` (kept above the existing brand strip, which stays as-is).
+- Scroll progress via a single `IntersectionObserver` + rAF-throttled scroll handler on the section ref — no new dependencies.
+- Rotating-word swap uses existing keyframes in `src/styles.css`; only a small blue gradient token is added if needed. No hardcoded color utilities in components.
+- Hero, header, and existing design tokens are untouched.
 
-Later stages (product grid, brand pages, cart, checkout) come after you approve this hero + shell.
+Next stages (product grid/cards for Ecovacs, then other brands) come after you approve this section.
