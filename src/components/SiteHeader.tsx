@@ -26,7 +26,11 @@ export function SiteHeader() {
         <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/85 to-background/60 backdrop-blur-xl" />
         <div
           className="absolute inset-x-0 bottom-0 h-px opacity-70"
-          style={{ background: "var(--slide-gradient, linear-gradient(90deg, transparent, hsl(var(--accent) / 0.6), transparent))" }}
+          style={{
+            background:
+              "var(--slide-gradient, linear-gradient(90deg, transparent, var(--accent), transparent))",
+            maskImage: "linear-gradient(90deg, transparent, black 15%, black 85%, transparent)",
+          }}
         />
       </div>
 
