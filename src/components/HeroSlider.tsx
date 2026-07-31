@@ -27,7 +27,7 @@ const SLIDES: Slide[] = [
     sub: "Wireless charging built for your everyday devices.",
     cta: "Shop Belkin",
     image: belkin.url,
-    gradient: "linear-gradient(90deg,#00ffa3,#2bff88,#00e0b0,#00ffa3)",
+    gradient: "linear-gradient(90deg,#00ff5f,#39ff14,#00ffa3,#00ff5f)",
   },
   {
     brand: "JBL",
@@ -146,7 +146,10 @@ export function HeroSlider() {
             <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/55 to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-background/40" />
 
-            <div className="absolute inset-0">
+            <div
+              className="absolute inset-0"
+              style={{ "--slide-gradient": slide.gradient } as React.CSSProperties}
+            >
               <div className="mx-auto flex h-full max-w-[1400px] items-center px-5 pl-6 md:px-10 md:pl-24">
                 <div className="max-w-2xl">
                   <h1 className="font-display text-[12vw] font-medium leading-[1.02] tracking-[-0.02em] text-foreground sm:text-6xl lg:text-7xl">
@@ -154,10 +157,7 @@ export function HeroSlider() {
                       <span
                         className={`block ${active ? "animate-wipe-up [animation-delay:600ms]" : "opacity-0"}`}
                       >
-                        <span
-                          className="accent-gradient inline-block transition-[filter] duration-300 hover:[animation-duration:1s] hover:drop-shadow-[0_0_22px_rgba(255,255,255,0.35)]"
-                          style={{ "--slide-gradient": slide.gradient } as React.CSSProperties}
-                        >
+                        <span className="accent-gradient inline-block">
                           {slide.accentWords}
                         </span>
                       </span>
@@ -185,7 +185,7 @@ export function HeroSlider() {
                     >
                       <a
                         href="#"
-                        className="mt-7 inline-flex items-center justify-center rounded-sm border border-foreground/70 px-7 py-3 text-[15px] font-medium text-foreground transition-colors duration-300 hover:border-accent hover:bg-accent hover:text-accent-foreground"
+                        className="accent-btn mt-7 inline-flex items-center justify-center rounded-sm border border-foreground/70 px-7 py-3 text-[15px] font-medium text-foreground transition-colors duration-300"
                       >
                         {slide.cta}
                       </a>

@@ -139,7 +139,18 @@
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
-  animation: shimmer 4s linear infinite;
+  animation: shimmer 3s linear infinite;
+  filter: drop-shadow(0 0 18px color-mix(in oklab, white 25%, transparent));
+}
+
+@utility accent-btn {
+  &:hover {
+    background-image: var(--slide-gradient);
+    background-size: 200% 100%;
+    animation: shimmer 3s linear infinite;
+    border-color: transparent;
+    color: var(--accent-foreground);
+  }
 }
 
 :root {
