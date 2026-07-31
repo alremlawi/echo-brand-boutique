@@ -88,9 +88,9 @@ export function EcovacsSection() {
       const raw = (vh - rect.top) / vh;
       setStage((prev) => {
         // three buckets with hysteresis so boundaries don't flicker
-        if (prev === 0) return raw > 0.5 ? (raw > 0.82 ? 2 : 1) : 0;
-        if (prev === 1) return raw > 0.82 ? 2 : raw < 0.42 ? 0 : 1;
-        return raw < 0.74 ? (raw < 0.42 ? 0 : 1) : 2;
+        if (prev === 0) return raw > 0.48 ? (raw > 0.76 ? 2 : 1) : 0;
+        if (prev === 1) return raw > 0.76 ? 2 : raw < 0.4 ? 0 : 1;
+        return raw < 0.68 ? (raw < 0.4 ? 0 : 1) : 2;
       });
     };
     const onScroll = () => {
@@ -124,7 +124,7 @@ export function EcovacsSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden bg-background py-24 md:py-32"
+      className="relative overflow-hidden bg-background pb-40 pt-24 md:pb-56 md:pt-32"
       style={{ "--slide-gradient": BLUE } as React.CSSProperties}
     >
       <div className="mx-auto max-w-[1100px] px-5 text-center md:px-10">
