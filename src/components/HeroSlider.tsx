@@ -106,11 +106,16 @@ export function HeroSlider() {
       className="relative h-[92vh] min-h-[560px] w-full overflow-hidden bg-background"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
-      onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}
+      onTouchStart={(e) => {
+        touchX.current = e.touches[0]?.clientX ?? null;
+      }}
       onTouchEnd={(e) => {
         if (touchX.current === null) return;
-        const dx = e.changedTouches[0].clientX - touchX.current;
-        if (Math.abs(dx) > 50) go(index + (dx < 0 ? 1 : -1));
+        const endX = e.changedTouches[0]?.clientX;
+        if (endX !== undefined) {
+          const dx = endX - touchX.current;
+          if (Math.abs(dx) > 50) go(index + (dx < 0 ? 1 : -1));
+        }
         touchX.current = null;
       }}
     >
