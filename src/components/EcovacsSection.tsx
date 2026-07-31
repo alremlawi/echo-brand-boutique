@@ -24,6 +24,7 @@ export function EcovacsSection() {
   const [isMobile, setIsMobile] = useState(false);
   const [reduced, setReduced] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -147,7 +148,7 @@ export function EcovacsSection() {
         </p>
       </div>
 
-      <div className="mt-14 flex justify-center md:mt-20">
+      <div ref={wrapRef} className="mt-14 flex justify-center md:mt-20">
         <div
           className="relative aspect-[16/9] overflow-hidden bg-card transition-[width,border-radius] duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-[width]"
           style={{
