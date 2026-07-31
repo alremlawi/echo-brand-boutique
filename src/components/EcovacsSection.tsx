@@ -18,7 +18,7 @@ const RADII = [28, 18, 0];
 
 export function EcovacsSection() {
   const [wordIndex, setWordIndex] = useState(0);
-  const [typed, setTyped] = useState(WORDS[0]);
+  const [typed, setTyped] = useState<string>(WORDS[0] ?? "");
   const [deleting, setDeleting] = useState(false);
   const [stage, setStage] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
