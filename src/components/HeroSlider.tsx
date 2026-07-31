@@ -16,6 +16,7 @@ type Slide = {
   sub: string;
   cta: string;
   image: string;
+  gradient: string;
 };
 
 const SLIDES: Slide[] = [
@@ -26,6 +27,7 @@ const SLIDES: Slide[] = [
     sub: "Wireless charging built for your everyday devices.",
     cta: "Shop Belkin",
     image: belkin.url,
+    gradient: "linear-gradient(90deg,#00ffa3,#2bff88,#00e0b0,#00ffa3)",
   },
   {
     brand: "JBL",
@@ -34,6 +36,7 @@ const SLIDES: Slide[] = [
     sub: "Portable audio, headphones and party speakers.",
     cta: "Shop JBL",
     image: jbl.url,
+    gradient: "linear-gradient(90deg,#ff8a00,#ff5722,#ffb300,#ff8a00)",
   },
   {
     brand: "Ecovacs",
@@ -42,6 +45,7 @@ const SLIDES: Slide[] = [
     sub: "Smart vacuums that map, mop and dock on their own.",
     cta: "Shop Ecovacs",
     image: ecovacs.url,
+    gradient: "linear-gradient(90deg,#00c6ff,#3b82f6,#22d3ee,#00c6ff)",
   },
   {
     brand: "Bissell",
@@ -50,6 +54,7 @@ const SLIDES: Slide[] = [
     sub: "Home care machines that actually lift the dirt.",
     cta: "Shop Bissell",
     image: bissell.url,
+    gradient: "linear-gradient(90deg,#ff2d55,#ff5f6d,#ff0033,#ff2d55)",
   },
   {
     brand: "BaByliss",
@@ -58,6 +63,7 @@ const SLIDES: Slide[] = [
     sub: "Salon results, straight from your own hands.",
     cta: "Shop BaByliss",
     image: babyliss.url,
+    gradient: "linear-gradient(90deg,#ff5fbf,#ff9ad5,#f472b6,#ff5fbf)",
   },
   {
     brand: "Moulinex",
@@ -66,6 +72,7 @@ const SLIDES: Slide[] = [
     sub: "Precision appliances for everyday cooking.",
     cta: "Shop Moulinex",
     image: moulinex.url,
+    gradient: "linear-gradient(90deg,#ff1e1e,#ff6a3d,#e11d48,#ff1e1e)",
   },
   {
     brand: "Cuisinart",
@@ -74,6 +81,7 @@ const SLIDES: Slide[] = [
     sub: "Iconic kitchen tools, built to perform for years.",
     cta: "Shop Cuisinart",
     image: cuisinart.url,
+    gradient: "linear-gradient(90deg,#e6e6e6,#9ca3af,#ffffff,#e6e6e6)",
   },
 ];
 
