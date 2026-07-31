@@ -103,7 +103,7 @@ export function HeroSlider() {
 
   return (
     <section
-      className="relative h-[92vh] min-h-[560px] w-full overflow-hidden bg-background"
+      className="relative h-[100svh] min-h-[560px] w-full overflow-hidden bg-background"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onTouchStart={(e) => {
@@ -141,39 +141,51 @@ export function HeroSlider() {
             <div className="absolute inset-0">
               <div className="mx-auto flex h-full max-w-[1400px] items-center px-5 md:px-10">
                 <div className="max-w-2xl">
-                  <p
-                    className={`mb-5 text-xs font-semibold uppercase tracking-[0.35em] text-accent ${
-                      active ? "animate-rise [animation-delay:100ms]" : "opacity-0"
-                    }`}
-                  >
-                    {slide.brand}
-                  </p>
-                  <h1 className="font-display text-[13vw] font-bold leading-[0.95] tracking-tight text-foreground sm:text-6xl lg:text-7xl">
-                    <span
-                      className={`block text-accent ${active ? "animate-rise [animation-delay:200ms]" : "opacity-0"}`}
+                  <div className="overflow-hidden pb-1">
+                    <p
+                      className={`mb-5 text-xs font-semibold uppercase tracking-[0.35em] text-accent ${
+                        active ? "animate-wipe-up [animation-delay:600ms]" : "opacity-0"
+                      }`}
                     >
-                      {slide.accentWords}
+                      {slide.brand}
+                    </p>
+                  </div>
+                  <h1 className="font-display text-[12vw] font-medium leading-[1.02] tracking-[-0.02em] text-foreground sm:text-6xl lg:text-7xl">
+                    <span className="block overflow-hidden pb-[0.06em]">
+                      <span
+                        className={`block text-accent ${active ? "animate-wipe-up [animation-delay:780ms]" : "opacity-0"}`}
+                      >
+                        {slide.accentWords}
+                      </span>
                     </span>
-                    <span
-                      className={`block ${active ? "animate-rise [animation-delay:330ms]" : "opacity-0"}`}
-                    >
-                      {slide.restWords}
+                    <span className="block overflow-hidden pb-[0.06em]">
+                      <span
+                        className={`block ${active ? "animate-wipe-up [animation-delay:920ms]" : "opacity-0"}`}
+                      >
+                        {slide.restWords}
+                      </span>
                     </span>
                   </h1>
-                  <p
-                    className={`mt-6 max-w-md text-base text-foreground/75 md:text-lg ${
-                      active ? "animate-rise [animation-delay:460ms]" : "opacity-0"
-                    }`}
-                  >
-                    {slide.sub}
-                  </p>
-                  <div className={active ? "animate-rise [animation-delay:600ms]" : "opacity-0"}>
-                    <a
-                      href="#"
-                      className="mt-9 inline-flex items-center justify-center border border-foreground/70 px-9 py-3.5 text-sm font-medium text-foreground transition-colors duration-300 hover:border-accent hover:bg-accent hover:text-accent-foreground"
+                  <div className="overflow-hidden pb-1">
+                    <p
+                      className={`mt-6 max-w-md text-base text-foreground/75 md:text-lg ${
+                        active ? "animate-wipe-up [animation-delay:1150ms]" : "opacity-0"
+                      }`}
                     >
-                      {slide.cta}
-                    </a>
+                      {slide.sub}
+                    </p>
+                  </div>
+                  <div className="overflow-hidden pb-2">
+                    <div
+                      className={active ? "animate-wipe-up [animation-delay:1400ms]" : "opacity-0"}
+                    >
+                      <a
+                        href="#"
+                        className="mt-9 inline-flex items-center justify-center rounded-md bg-accent px-9 py-3.5 text-sm font-medium text-accent-foreground transition-opacity duration-300 hover:opacity-90"
+                      >
+                        {slide.cta}
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -197,24 +209,22 @@ export function HeroSlider() {
         <ChevronRight className="size-5" />
       </button>
 
-      <div className="absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 items-center gap-3 md:left-10 md:translate-x-0">
-        {SLIDES.map((s, i) => (
-          <button
-            key={s.brand}
-            aria-label={`Go to ${s.brand} slide`}
-            onClick={() => go(i)}
-            className="group relative h-[3px] overflow-hidden bg-foreground/25 transition-all duration-300"
-            style={{ width: i === index ? 56 : 22 }}
-          >
-            <span
-              key={`${s.brand}-${index}-${paused}`}
-              className={`absolute inset-y-0 left-0 bg-accent ${
-                i === index ? (paused ? "w-full" : "animate-progress") : "w-0"
-              }`}
-              style={i === index && !paused ? { animationDuration: `${DURATION}ms` } : undefined}
-            />
-          </button>
-        ))}
+      <div className="absolute bottom-10 left-1/2 z-20 flex w-[min(88vw,340px)] -translate-x-1/2 items-center gap-4 md:left-auto md:right-14 md:translate-x-0">
+        <span className="text-sm tabular-nums text-foreground/80">
+          {String(index + 1).padStart(2, "0")}
+        </span>
+        <div className="relative h-px flex-1 bg-foreground/30">
+          <span
+            key={`${index}-${paused}`}
+            className={`absolute inset-y-0 left-0 -top-px h-[2px] bg-foreground ${
+              paused ? "w-full" : "animate-progress"
+            }`}
+            style={paused ? undefined : { animationDuration: `${DURATION}ms` }}
+          />
+        </div>
+        <span className="text-sm tabular-nums text-foreground/60">
+          {String(SLIDES.length).padStart(2, "0")}
+        </span>
       </div>
     </section>
   );
