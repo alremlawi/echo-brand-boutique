@@ -19,8 +19,8 @@
  */
 
 @theme inline {
-  --font-display: "Barlow Condensed", "Barlow", sans-serif;
-  --font-sans: "Barlow", system-ui, sans-serif;
+  --font-display: "Outfit", system-ui, sans-serif;
+  --font-sans: "Outfit", system-ui, sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -83,6 +83,20 @@
   }
 }
 
+@keyframes wipe-up {
+  0% {
+    opacity: 0;
+    transform: translateY(110%) skewY(7deg) scaleY(1.06);
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) skewY(0deg) scaleY(1);
+  }
+}
+
 @keyframes progress {
   0% {
     width: 0%;
@@ -99,6 +113,11 @@
 @utility animate-rise {
   opacity: 0;
   animation: rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@utility animate-wipe-up {
+  opacity: 0;
+  animation: wipe-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @utility animate-progress {
