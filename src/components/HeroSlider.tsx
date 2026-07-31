@@ -27,7 +27,7 @@ const SLIDES: Slide[] = [
     sub: "Wireless charging built for your everyday devices.",
     cta: "Shop Belkin",
     image: belkin.url,
-    gradient: "linear-gradient(90deg,#00ffa3,#2bff88,#00e0b0,#00ffa3)",
+    gradient: "linear-gradient(90deg,#00ff5f,#39ff14,#00ffa3,#00ff5f)",
   },
   {
     brand: "JBL",
@@ -146,7 +146,10 @@ export function HeroSlider() {
             <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/55 to-transparent" />
             <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-background/40" />
 
-            <div className="absolute inset-0">
+            <div
+              className="absolute inset-0"
+              style={{ "--slide-gradient": slide.gradient } as React.CSSProperties}
+            >
               <div className="mx-auto flex h-full max-w-[1400px] items-center px-5 pl-6 md:px-10 md:pl-24">
                 <div className="max-w-2xl">
                   <h1 className="font-display text-[12vw] font-medium leading-[1.02] tracking-[-0.02em] text-foreground sm:text-6xl lg:text-7xl">
