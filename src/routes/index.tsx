@@ -1,24 +1,47 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+import { HeroSlider } from "@/components/HeroSlider";
+import { SiteHeader } from "@/components/SiteHeader";
+
+const TITLE = "ReVolt — JBL, Belkin, Ecovacs, Bissell & BaByliss Store";
+const DESCRIPTION =
+  "Shop premium audio, charging, home cleaning and personal care tech from JBL, Belkin, Ecovacs, Bissell, BaByliss, Moulinex and Cuisinart.";
+
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: TITLE },
+      { name: "description", content: DESCRIPTION },
+      { property: "og:title", content: TITLE },
+      { property: "og:description", content: DESCRIPTION },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
+const BRANDS = ["JBL", "BELKIN", "ECOVACS", "BISSELL", "BABYLISS", "MOULINEX", "CUISINART"];
+
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="min-h-screen bg-background font-sans text-foreground">
+      <SiteHeader />
+      <main>
+        <HeroSlider />
+        <section className="border-y border-border/60 py-8">
+          <div className="mx-auto flex max-w-[1400px] flex-wrap items-center justify-center gap-x-12 gap-y-5 px-5 md:justify-between md:px-10">
+            {BRANDS.map((b) => (
+              <span
+                key={b}
+                className="font-display text-lg font-bold tracking-[0.2em] text-muted-foreground transition-colors hover:text-accent"
+              >
+                {b}
+              </span>
+            ))}
+          </div>
+        </section>
+      </main>
     </div>
   );
 }
