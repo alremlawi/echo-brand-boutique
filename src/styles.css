@@ -140,7 +140,6 @@
   -webkit-background-clip: text;
   color: transparent;
   animation: shimmer 3s linear infinite;
-  filter: drop-shadow(0 0 18px color-mix(in oklab, white 25%, transparent));
 }
 
 @utility accent-btn {
