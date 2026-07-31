@@ -151,8 +151,8 @@ export function HeroSlider() {
               style={{ "--slide-gradient": slide.gradient } as React.CSSProperties}
             >
               <div className="mx-auto flex h-full max-w-[1400px] items-center px-5 pl-6 md:px-10 md:pl-24">
-                <div className="max-w-2xl">
-                  <h1 className="font-display text-[12vw] font-medium leading-[1.02] tracking-[-0.02em] text-foreground sm:text-6xl lg:text-7xl">
+                <div className="min-w-0 max-w-2xl">
+                  <h1 className="font-display text-[clamp(2.5rem,11vw,4rem)] font-semibold leading-[0.95] tracking-[-0.035em] text-foreground md:text-[clamp(3.5rem,7vw,5.25rem)]">
                     <span className="block overflow-hidden pb-[0.06em]">
                       <span
                         className={`block ${active ? "animate-wipe-up [animation-delay:600ms]" : "opacity-0"}`}
