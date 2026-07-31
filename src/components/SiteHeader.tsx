@@ -15,12 +15,26 @@ export function SiteHeader() {
   }, []);
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-        scrolled ? "bg-background/85 backdrop-blur-md" : "bg-transparent"
-      }`}
-    >
-      <div className="mx-auto flex h-20 max-w-[1400px] items-center justify-between px-5 md:px-10">
+    <header className="fixed inset-x-0 top-0 z-50">
+      {/* scroll-reveal background layers */}
+      <div
+        aria-hidden
+        className={`pointer-events-none absolute inset-0 -z-10 transition-all duration-500 ease-out ${
+          scrolled ? "opacity-100" : "opacity-0"
+        }`}
+      >
+        <div className="absolute inset-0 bg-gradient-to-b from-background/95 via-background/85 to-background/60 backdrop-blur-xl" />
+        <div
+          className="absolute inset-x-0 bottom-0 h-px opacity-70"
+          style={{ background: "var(--slide-gradient, linear-gradient(90deg, transparent, hsl(var(--accent) / 0.6), transparent))" }}
+        />
+      </div>
+
+      <div
+        className={`mx-auto flex max-w-[1400px] items-center justify-between px-5 transition-all duration-500 ease-out md:px-10 ${
+          scrolled ? "h-16" : "h-20"
+        }`}
+      >
         <Link to="/" className="flex items-center gap-3">
           <span className="grid grid-cols-3 gap-[3px]">
             {[1, 0, 1, 1, 1, 0, 0, 1, 1].map((on, i) => (
