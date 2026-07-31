@@ -172,7 +172,7 @@ export function HeroSlider() {
                   </h1>
                   <div className="overflow-hidden pb-1">
                     <p
-                      className={`mt-5 max-w-md text-base text-foreground/80 md:text-[17px] ${
+                      className={`mt-5 max-w-md text-[15px] font-light leading-[1.6] text-foreground/75 md:text-[18px] ${
                         active ? "animate-wipe-up [animation-delay:980ms]" : "opacity-0"
                       }`}
                     >
@@ -185,7 +185,7 @@ export function HeroSlider() {
                     >
                       <a
                         href="#"
-                        className="accent-btn mt-7 inline-flex items-center justify-center rounded-sm border border-foreground/70 px-7 py-3 text-[15px] font-medium text-foreground transition-colors duration-300"
+                        className="accent-btn mt-7 inline-flex items-center justify-center rounded-sm border border-foreground/70 px-7 py-3 text-[13px] font-medium uppercase leading-none tracking-[0.14em] text-foreground transition-colors duration-300 md:text-[14px]"
                       >
                         {slide.cta}
                       </a>
