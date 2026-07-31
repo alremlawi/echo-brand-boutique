@@ -115,6 +115,20 @@
   }
 }
 
+@keyframes caret-blink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  50%,
+  95% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 @utility animate-kenburns {
   animation: kenburns 8s ease-out forwards;
 }
@@ -131,6 +145,10 @@
 
 @utility animate-progress {
   animation: progress linear forwards;
+}
+
+@utility animate-caret-blink {
+  animation: caret-blink 1s steps(1, end) infinite;
 }
 
 @utility accent-gradient {
