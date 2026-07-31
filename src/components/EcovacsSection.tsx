@@ -79,22 +79,17 @@ export function EcovacsSection() {
     let frame = 0;
     const update = () => {
       frame = 0;
-      const el = sectionRef.current;
+      const el = wrapRef.current;
       if (!el) return;
       const rect = el.getBoundingClientRect();
       const vh = window.innerHeight || 1;
-      const raw = (vh - rect.top) / (vh * 1.1);
+      // how far the video block has travelled up the viewport (0 = just entering)
+      const raw = (vh - rect.top) / vh;
       setStage((prev) => {
         // three buckets with hysteresis so boundaries don't flicker
-        const up = [0.34, 0.62];
-        const down = [0.28, 0.56];
-        let next = prev;
-        if (raw > up[1]!) next = 2;
-        else if (raw > up[0]!) next = Math.max(prev === 2 && raw > down[1]! ? 2 : 1, 1);
-        else if (raw < down[0]!) next = 0;
-        else next = prev === 2 && raw > down[1]! ? 2 : 1;
-        if (raw < down[0]!) next = 0;
-        return next;
+        if (prev === 0) return raw > 0.55 ? (raw > 1.0 ? 2 : 1) : 0;
+        if (prev === 1) return raw > 1.0 ? 2 : raw < 0.45 ? 0 : 1;
+        return raw < 0.9 ? (raw < 0.45 ? 0 : 1) : 2;
       });
     };
     const onScroll = () => {
