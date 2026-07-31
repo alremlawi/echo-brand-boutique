@@ -31,7 +31,7 @@ const SLIDES: Slide[] = [
   },
   {
     brand: "JBL",
-    accentWords: "Unleash",
+    accentWords: "Extreme",
     restWords: "the sound",
     sub: "Portable audio, headphones and party speakers.",
     cta: "Shop JBL",
