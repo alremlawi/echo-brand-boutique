@@ -1,26 +1,27 @@
-## 1. Highlighted word — typewriter effect
+## القسم الجديد: Ecovacs robots grid
 
-Replace the current wipe-up reveal of the rotating word (innovation → intelligence → precision → power) with a chat-style typing animation:
+يضاف تحت فيديو الايكوفاكس مباشرة، بنفس أسلوب الريفرنس المرفق.
 
-- Types the word character by character (~55ms per char), holds for ~1.6s, then deletes character by character (~35ms per char), then moves to the next word.
-- A blinking caret (thin vertical bar in the blue brand gradient) sits right after the text while typing/deleting.
-- The line keeps a reserved minimum width so the headline doesn't jump around as the word grows and shrinks.
-- Keeps the existing blue gradient + shimmer on the typed text.
-- Respects `prefers-reduced-motion`: shows the words swapping without the typing animation.
+### الشكل
+- عنوان بالمنتصف: **New** بالأبيض + **arrivals** بالتدرج الأزرق المتحرك (نفس `accent-gradient` المستخدم بالسكشن).
+- سطر وصف قصير رمادي تحت العنوان.
+- صف واحد فيه 5 بطاقات منتجات (5 أعمدة على الديسكتوب، 2 على الموبايل، 3 على التابلت).
+- كل بطاقة: مربع صورة بخلفية داكنة (`bg-card`) وزوايا ناعمة، أيقونة قلب بالزاوية اليمنى العليا، وتحت الصورة اسم المنتج ثم السعر.
+- عند المرور بالماوس على البطاقة: يظهر شريط **Quick View** فوق الصورة، ويتحول اسم المنتج للتدرج الأزرق ويظهر تحت السعر **Select Options** بأيقونة عربة — تماماً مثل البطاقة الوسطى بالصورة المرفقة.
 
-## 2. Video — 3-stage scroll expansion
+### المنتجات (روبوتات Ecovacs)
+Deebot X5 Pro Omni، Deebot T30S Combo، Deebot N20 Pro Plus، Goat O1200 RTK، Winbot W2 Omni — مع أسعار.
 
-Currently the video expands smoothly with scroll and autoplays. Change to:
+### الصور
+تُولَّد 5 صور بالذكاء الاصطناعي لروبوتات كنس/مسح على خلفية داكنة موحدة، وتُحفظ في `src/assets` وتُستورد كصور عادية.
 
-- Starts noticeably smaller (a contained card, ~46% of viewport width, rounded corners).
-- As the section scrolls up through the viewport, it snaps through three discrete stages rather than a continuous slide:
-  - Stage 1 — small card (~46vw, large radius)
-  - Stage 2 — mid card (~72vw, medium radius)
-  - Stage 3 — full-bleed (100vw, no radius)
-- Each stage transition is an eased animation (~600ms cubic-bezier) so it reads as three deliberate steps, matching the reference video.
-- Playback: video no longer autoplays on load. It stays paused on the poster frame and begins playing (muted, looping) once it reaches the final full-bleed stage; it pauses again if scrolled back out.
-- Mobile: stages step to ~78vw → ~92vw → 100vw so the first stage stays legible on a small screen.
+### الأنيميشن
+- كل بطاقة تبدأ مخفية ومزاحة 40px للأسفل، وتصعد للأعلى مع ظهور تدريجي عند دخولها الشاشة أثناء السكرول للأسفل.
+- عند السكرول للأعلى وخروج البطاقة من الشاشة ترجع لحالتها المخفية، فتتكرر الحركة في كل مرة (ليست مرة واحدة).
+- تأخير متدرج بين البطاقات (~90ms) حتى تظهر واحدة بعد الثانية.
+- احترام `prefers-reduced-motion`: تظهر البطاقات مباشرة بدون حركة.
 
-## Technical notes
-
-All changes stay inside `src/components/EcovacsSection.tsx`, plus a `typing`/`caret-blink` keyframe pair added to `src/styles.css`. Stage detection uses the existing scroll listener, quantized into 3 buckets with hysteresis so it doesn't flicker at boundaries; width/radius move to CSS transitions instead of per-frame inline values. Playback is toggled with a ref to the `<video>` element.
+### ملاحظات تقنية
+- مكوّن جديد `src/components/EcovacsProducts.tsx` يُضاف في `src/routes/index.tsx` بعد `<EcovacsSection />`.
+- الحركة عبر `IntersectionObserver` (بدون `once`) يضيف/يزيل كلاس، والانتقال بـ CSS transition على `opacity/transform`.
+- إضافة util بسيط للحركة في `src/styles.css` إن لزم، مع الاعتماد على التوكنات الموجودة (`bg-card`, `text-muted-foreground`, `--slide-gradient`) بدون ألوان ثابتة.
