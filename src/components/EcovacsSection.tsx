@@ -142,9 +142,11 @@ export function EcovacsSection() {
             </span>
           </span>
         </h2>
-        <p className="mt-7 text-[15px] font-medium tracking-tight text-foreground/90">Ecovacs</p>
-        <p className="mt-1 text-[13px] font-light text-muted-foreground">
-          Smart home cleaning robots
+        <p className="mt-7 text-[13px] font-semibold uppercase tracking-[0.28em] text-foreground/90">
+          Ecovacs
+        </p>
+        <p className="mt-2 text-[13px] font-light tracking-tight text-muted-foreground">
+          Smart home cleaning robots that map, vacuum and mop on their own
         </p>
       </div>
 
