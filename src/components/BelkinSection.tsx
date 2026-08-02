@@ -16,7 +16,9 @@ export function BelkinSection() {
   const rangeRef = useRef({ start: 0, end: 0 });
   const indexRef = useRef(0);
   const reducedRef = useRef(false);
-  const xRef = useRef<number | null>(null);
+  const xRef = useRef(0);
+  const driftRef = useRef(0);
+  const applyRef = useRef(() => {});
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -41,7 +43,6 @@ export function BelkinSection() {
       const slotRect = slot.getBoundingClientRect();
       const slotCentre = slotRect.left - rowRect.left + slotRect.width / 2;
       rangeRef.current = { start: vw, end: vw / 2 - slotCentre };
-      xRef.current = null;
       window.dispatchEvent(new Event("scroll"));
     };
     const schedule = () => {
@@ -66,6 +67,11 @@ export function BelkinSection() {
 
   useEffect(() => {
     let frame = 0;
+    applyRef.current = () => {
+      const row = rowRef.current;
+      if (!row || reducedRef.current) return;
+      row.style.transform = `translate3d(${xRef.current + driftRef.current}px,0,0)`;
+    };
     const update = () => {
       frame = 0;
       const el = wrapRef.current;
@@ -79,11 +85,8 @@ export function BelkinSection() {
       // constant-speed travel until the last word sits in the middle
       const slide = Math.min(progress / SLIDE_PART, 1);
       const { start, end } = rangeRef.current;
-      const x = Math.round((start + (end - start) * slide) * 100) / 100;
-      if (!reducedRef.current && x !== xRef.current) {
-        xRef.current = x;
-        row.style.transform = `translate3d(${x}px,0,0)`;
-      }
+      xRef.current = Math.round((start + (end - start) * slide) * 100) / 100;
+      applyRef.current();
 
       // after that, scroll flips through the keywords
       const wordProgress = Math.max(progress - SLIDE_PART, 0) / (1 - SLIDE_PART);
@@ -104,6 +107,37 @@ export function BelkinSection() {
       if (frame) cancelAnimationFrame(frame);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+
+  // gentle continuous drift so the sentence is always in motion
+  useEffect(() => {
+    const row = rowRef.current;
+    const wrap = wrapRef.current;
+    if (!row || !wrap) return;
+    let raf = 0;
+    let t0 = 0;
+    const tick = (now: number) => {
+      if (!t0) t0 = now;
+      if (!reducedRef.current) {
+        driftRef.current = Math.sin(((now - t0) / 1000) * 0.55) * 26;
+        applyRef.current();
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    const io = new IntersectionObserver((entries) => {
+      const on = entries.some((e) => e.isIntersecting);
+      if (on && !raf) raf = requestAnimationFrame(tick);
+      if (!on && raf) {
+        cancelAnimationFrame(raf);
+        raf = 0;
+        t0 = 0;
+      }
+    });
+    io.observe(wrap);
+    return () => {
+      if (raf) cancelAnimationFrame(raf);
+      io.disconnect();
     };
   }, []);
 
