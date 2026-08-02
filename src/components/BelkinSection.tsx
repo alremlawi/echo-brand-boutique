@@ -100,8 +100,8 @@ export function BelkinSection() {
     };
 
     // only animate while the section is on screen
-    const io = new IntersectionObserver(([entry]) => {
-      visible = entry.isIntersecting;
+    const io = new IntersectionObserver((entries) => {
+      visible = entries.some((e) => e.isIntersecting);
       if (visible) start();
       else stop();
     });
