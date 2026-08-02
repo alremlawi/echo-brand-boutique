@@ -55,9 +55,9 @@ export function BelkinSection() {
       if (total <= 0) return;
       const progress = Math.min(Math.max(-rect.top / total, 0), 0.9999);
 
+      // linear, constant-speed travel — matches the reference ticker exactly
       const slide = Math.min(progress / SLIDE_PART, 1);
-      const eased = 1 - Math.pow(1 - slide, 3);
-      setX(range.start + (range.end - range.start) * eased);
+      setX(range.start + (range.end - range.start) * slide);
 
       const wordProgress = Math.max(progress - SLIDE_PART, 0) / (1 - SLIDE_PART);
       setIndex(Math.min(Math.floor(wordProgress * WORDS.length), WORDS.length - 1));
@@ -102,7 +102,7 @@ export function BelkinSection() {
               {WORDS.map((word, i) => (
                 <span
                   key={word}
-                  className="absolute inset-x-0 top-0 flex items-baseline transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                  className="absolute inset-x-0 top-0 flex items-baseline transition-[opacity,transform] duration-300 ease-linear"
                   style={{
                     opacity: i === index ? 1 : 0,
                     transform: reduced
