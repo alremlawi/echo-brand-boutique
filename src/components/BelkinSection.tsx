@@ -3,8 +3,9 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 const GREEN = "linear-gradient(90deg,#00ff5f,#22e07a,#00e0a0,#00ff5f)";
 const WORDS = ["POWER", "SPEED", "PERFORMANCE", "POSSIBILITIES"];
 
-// portion of the scroll used to slide the sentence in from the right
-const SLIDE_PART = 0.4;
+// scroll phases: slide in -> word swapping -> slide out
+const SLIDE_IN = 0.28;
+const WORDS_END = 0.82;
 
 export function BelkinSection() {
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -13,11 +14,10 @@ export function BelkinSection() {
 
   const [index, setIndex] = useState(0);
   const [reduced, setReduced] = useState(false);
-  const rangeRef = useRef({ start: 0, end: 0 });
+  const rangeRef = useRef({ start: 0, end: 0, exit: 0 });
   const indexRef = useRef(0);
   const reducedRef = useRef(false);
   const xRef = useRef(0);
-  const driftRef = useRef(0);
   const applyRef = useRef(() => {});
 
   useEffect(() => {
@@ -42,7 +42,12 @@ export function BelkinSection() {
       const rowRect = row.getBoundingClientRect();
       const slotRect = slot.getBoundingClientRect();
       const slotCentre = slotRect.left - rowRect.left + slotRect.width / 2;
-      rangeRef.current = { start: vw, end: vw / 2 - slotCentre };
+      const pad = Math.min(vw * 0.06, 64);
+      rangeRef.current = {
+        start: pad, // sentence begins at its first word, on screen
+        end: vw / 2 - slotCentre, // last word settles in the middle
+        exit: -rowRect.width - pad, // sentence leaves to the left
+      };
       window.dispatchEvent(new Event("scroll"));
     };
     const schedule = () => {
@@ -70,7 +75,7 @@ export function BelkinSection() {
     applyRef.current = () => {
       const row = rowRef.current;
       if (!row || reducedRef.current) return;
-      row.style.transform = `translate3d(${xRef.current + driftRef.current}px,0,0)`;
+      row.style.transform = `translate3d(${xRef.current}px,0,0)`;
     };
     const update = () => {
       frame = 0;
@@ -82,14 +87,25 @@ export function BelkinSection() {
       if (total <= 0) return;
       const progress = Math.min(Math.max(-rect.top / total, 0), 0.9999);
 
-      // constant-speed travel until the last word sits in the middle
-      const slide = Math.min(progress / SLIDE_PART, 1);
-      const { start, end } = rangeRef.current;
-      xRef.current = Math.round((start + (end - start) * slide) * 100) / 100;
+      const { start, end, exit } = rangeRef.current;
+      let x: number;
+      if (progress < SLIDE_IN) {
+        // phase 1 — travel from the first word until the last word is centred
+        x = start + (end - start) * (progress / SLIDE_IN);
+      } else if (progress < WORDS_END) {
+        // phase 2 — parked while the keywords swap
+        x = end;
+      } else {
+        // phase 3 — the sentence moves on and the page continues
+        x = end + (exit - end) * ((progress - WORDS_END) / (1 - WORDS_END));
+      }
+      xRef.current = Math.round(x * 100) / 100;
       applyRef.current();
 
-      // after that, scroll flips through the keywords
-      const wordProgress = Math.max(progress - SLIDE_PART, 0) / (1 - SLIDE_PART);
+      const wordProgress = Math.min(
+        Math.max(progress - SLIDE_IN, 0) / (WORDS_END - SLIDE_IN),
+        0.9999,
+      );
       const next = Math.min(Math.floor(wordProgress * WORDS.length), WORDS.length - 1);
       if (next !== indexRef.current) {
         indexRef.current = next;
@@ -107,37 +123,6 @@ export function BelkinSection() {
       if (frame) cancelAnimationFrame(frame);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
-    };
-  }, []);
-
-  // gentle continuous drift so the sentence is always in motion
-  useEffect(() => {
-    const row = rowRef.current;
-    const wrap = wrapRef.current;
-    if (!row || !wrap) return;
-    let raf = 0;
-    let t0 = 0;
-    const tick = (now: number) => {
-      if (!t0) t0 = now;
-      if (!reducedRef.current) {
-        driftRef.current = Math.sin(((now - t0) / 1000) * 0.55) * 26;
-        applyRef.current();
-      }
-      raf = requestAnimationFrame(tick);
-    };
-    const io = new IntersectionObserver((entries) => {
-      const on = entries.some((e) => e.isIntersecting);
-      if (on && !raf) raf = requestAnimationFrame(tick);
-      if (!on && raf) {
-        cancelAnimationFrame(raf);
-        raf = 0;
-        t0 = 0;
-      }
-    });
-    io.observe(wrap);
-    return () => {
-      if (raf) cancelAnimationFrame(raf);
-      io.disconnect();
     };
   }, []);
 
