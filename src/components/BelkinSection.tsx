@@ -13,12 +13,17 @@ export function BelkinSection() {
 
   const [index, setIndex] = useState(0);
   const [reduced, setReduced] = useState(false);
-  const [range, setRange] = useState({ start: 0, end: 0 });
-  const [x, setX] = useState(0);
+  const rangeRef = useRef({ start: 0, end: 0 });
+  const indexRef = useRef(0);
+  const reducedRef = useRef(false);
+  const xRef = useRef<number | null>(null);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const apply = () => setReduced(mq.matches);
+    const apply = () => {
+      reducedRef.current = mq.matches;
+      setReduced(mq.matches);
+    };
     apply();
     mq.addEventListener("change", apply);
     return () => mq.removeEventListener("change", apply);
@@ -38,7 +43,9 @@ export function BelkinSection() {
       const slotCentre = slotRect.left - rowRect.left + slotRect.width / 2;
       const start = vw; // fully off-screen to the right
       const end = vw / 2 - slotCentre; // word slot lands in the middle
-      setRange({ start, end });
+      rangeRef.current = { start, end };
+      xRef.current = null; // force a transform rewrite on the next frame
+      window.dispatchEvent(new Event("scroll"));
     };
     const schedule = () => {
       if (raf) cancelAnimationFrame(raf);
@@ -66,7 +73,8 @@ export function BelkinSection() {
     const update = () => {
       frame = 0;
       const el = wrapRef.current;
-      if (!el) return;
+      const row = rowRef.current;
+      if (!el || !row) return;
       const rect = el.getBoundingClientRect();
       const total = rect.height - window.innerHeight;
       if (total <= 0) return;
@@ -74,10 +82,20 @@ export function BelkinSection() {
 
       // linear, constant-speed travel — matches the reference ticker exactly
       const slide = Math.min(progress / SLIDE_PART, 1);
-      setX(range.start + (range.end - range.start) * slide);
+      const { start, end } = rangeRef.current;
+      const x = Math.round((start + (end - start) * slide) * 100) / 100;
+      // write straight to the DOM — no React re-render per scroll frame
+      if (!reducedRef.current && x !== xRef.current) {
+        xRef.current = x;
+        row.style.transform = `translate3d(${x}px,0,0)`;
+      }
 
       const wordProgress = Math.max(progress - SLIDE_PART, 0) / (1 - SLIDE_PART);
-      setIndex(Math.min(Math.floor(wordProgress * WORDS.length), WORDS.length - 1));
+      const next = Math.min(Math.floor(wordProgress * WORDS.length), WORDS.length - 1);
+      if (next !== indexRef.current) {
+        indexRef.current = next;
+        setIndex(next);
+      }
     };
     const onScroll = () => {
       if (frame) return;
@@ -85,13 +103,13 @@ export function BelkinSection() {
     };
     update();
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
+    window.addEventListener("resize", onScroll, { passive: true });
     return () => {
       if (frame) cancelAnimationFrame(frame);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
-  }, [range]);
+  }, []);
 
   return (
     <section
@@ -100,14 +118,15 @@ export function BelkinSection() {
       style={{ "--slide-gradient": GREEN } as React.CSSProperties}
       aria-label="Belkin — ready for iPhone"
     >
-      <div className="sticky top-0 flex h-svh items-center overflow-hidden">
+      <div className="sticky top-0 flex h-svh items-center overflow-hidden [contain:layout_paint]">
         <h2 className="w-full">
           <div
             ref={rowRef}
             className="flex w-max items-baseline gap-[0.3em] whitespace-nowrap font-display text-[clamp(1.5rem,7.5vw,2.25rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-foreground sm:text-[clamp(2rem,6.5vw,3.25rem)] md:text-[clamp(2.75rem,6vw,5rem)]"
             style={{
-              transform: reduced ? "none" : `translate3d(${x}px,0,0)`,
+              transform: reduced ? "none" : "translate3d(0,0,0)",
               willChange: "transform",
+              backfaceVisibility: "hidden",
             }}
           >
             <span className="accent-gradient">Belkin</span>
