@@ -114,7 +114,7 @@ export function BelkinSection() {
             <span>ready for iPhone with</span>
             <span
               ref={slotRef}
-              className="relative inline-block h-[1.15em] w-[6.6em] overflow-hidden align-baseline"
+              className="relative inline-block h-[1.3em] w-[8.6em] overflow-hidden align-baseline"
             >
               {WORDS.map((word, i) => (
                 <span
