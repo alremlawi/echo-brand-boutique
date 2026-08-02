@@ -26,6 +26,7 @@ export function BelkinSection() {
 
   // measure: where the sentence starts (off-screen right) and where it stops
   useLayoutEffect(() => {
+    let raf = 0;
     const measure = () => {
       const row = rowRef.current;
       const slot = slotRef.current;
@@ -39,9 +40,25 @@ export function BelkinSection() {
       const end = vw / 2 - slotCentre; // word slot lands in the middle
       setRange({ start, end });
     };
-    measure();
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
+    const schedule = () => {
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(measure);
+    };
+    schedule();
+    // re-measure once webfonts settle so the slide distance stays correct
+    if (typeof document !== "undefined" && "fonts" in document) {
+      void document.fonts.ready.then(schedule);
+    }
+    const ro = new ResizeObserver(schedule);
+    if (rowRef.current) ro.observe(rowRef.current);
+    window.addEventListener("resize", schedule);
+    window.addEventListener("orientationchange", schedule);
+    return () => {
+      if (raf) cancelAnimationFrame(raf);
+      ro.disconnect();
+      window.removeEventListener("resize", schedule);
+      window.removeEventListener("orientationchange", schedule);
+    };
   }, []);
 
   useEffect(() => {
@@ -79,7 +96,7 @@ export function BelkinSection() {
   return (
     <section
       ref={wrapRef}
-      className="relative h-[420svh] bg-background"
+      className="relative h-[300svh] bg-background md:h-[420svh]"
       style={{ "--slide-gradient": GREEN } as React.CSSProperties}
       aria-label="Belkin — ready for iPhone"
     >
@@ -87,7 +104,7 @@ export function BelkinSection() {
         <h2 className="w-full">
           <div
             ref={rowRef}
-            className="flex w-max items-baseline gap-[0.3em] whitespace-nowrap font-display text-[clamp(2.5rem,11vw,4rem)] font-semibold leading-[1.05] tracking-[-0.035em] text-foreground md:text-[clamp(3.5rem,7vw,6rem)]"
+            className="flex w-max items-baseline gap-[0.3em] whitespace-nowrap font-display text-[clamp(1.5rem,7.5vw,2.25rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-foreground sm:text-[clamp(2rem,6.5vw,3.25rem)] md:text-[clamp(2.75rem,6vw,5rem)]"
             style={{
               transform: reduced ? "none" : `translate3d(${x}px,0,0)`,
               willChange: "transform",
@@ -97,7 +114,7 @@ export function BelkinSection() {
             <span>ready for iPhone with</span>
             <span
               ref={slotRef}
-              className="relative inline-block h-[1.15em] w-[6.6em] overflow-hidden align-baseline"
+              className="relative inline-block h-[1.3em] w-[8.6em] overflow-hidden align-baseline"
             >
               {WORDS.map((word, i) => (
                 <span
