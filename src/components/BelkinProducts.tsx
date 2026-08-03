@@ -46,7 +46,7 @@ export function BelkinProducts() {
 
   return (
     <section
-      className="bg-background py-5 md:py-8"
+      className="bg-background py-2 md:py-4"
       style={{ "--slide-gradient": GREEN } as React.CSSProperties}
       aria-label="Belkin products"
     >
