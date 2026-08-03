@@ -177,18 +177,6 @@ export function BelkinSection() {
           </div>
         </h2>
 
-        <div className="pointer-events-none absolute bottom-10 left-1/2 flex -translate-x-1/2 gap-2">
-          {WORDS.map((word, i) => (
-            <span
-              key={word}
-              className="h-[3px] w-10 rounded-full transition-colors duration-300"
-              style={{
-                backgroundImage: i <= index ? GREEN : "none",
-                backgroundColor: i <= index ? "transparent" : "var(--border)",
-              }}
-            />
-          ))}
-        </div>
       </div>
     </section>
   );
