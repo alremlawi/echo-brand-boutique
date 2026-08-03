@@ -5,6 +5,7 @@ import { EcovacsSection } from "@/components/EcovacsSection";
 import { EcovacsProducts } from "@/components/EcovacsProducts";
 import { BissellSection } from "@/components/BissellSection";
 import { BelkinSection } from "@/components/BelkinSection";
+import { BelkinProducts } from "@/components/BelkinProducts";
 import { SiteHeader } from "@/components/SiteHeader";
 
 const TITLE = "ReVolt — JBL, Belkin, Ecovacs, Bissell & BaByliss Store";
@@ -37,6 +38,7 @@ function Index() {
         <EcovacsProducts />
         <BissellSection />
         <BelkinSection />
+        <BelkinProducts />
         <section className="border-y border-border/60 py-8">
           <div className="mx-auto flex max-w-[1400px] flex-wrap items-center justify-center gap-x-12 gap-y-5 px-5 md:justify-between md:px-10">
             {BRANDS.map((b) => (
