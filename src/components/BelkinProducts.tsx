@@ -46,21 +46,12 @@ export function BelkinProducts() {
 
   return (
     <section
-      className="bg-background py-20 md:py-28"
+      className="bg-background py-10 md:py-16"
       style={{ "--slide-gradient": GREEN } as React.CSSProperties}
       aria-label="Belkin products"
     >
       <div className="mx-auto max-w-[1400px] px-5 md:px-10">
-        <div className="text-center">
-          <h2 className="font-display text-[clamp(2rem,6vw,3rem)] font-semibold tracking-[-0.03em] text-foreground">
-            Belkin <span className="accent-gradient">essentials</span>
-          </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-sm text-muted-foreground md:text-base">
-            Charging, power and audio built around your iPhone — fast, magnetic and effortless.
-          </p>
-        </div>
-
-        <div ref={gridRef} className="mt-14 grid grid-cols-2 gap-x-5 gap-y-10 lg:grid-cols-4">
+        <div ref={gridRef} className="grid grid-cols-2 gap-x-5 gap-y-10 lg:grid-cols-4">
           {PRODUCTS.map((p, i) => (
             <article
               key={p.name}
